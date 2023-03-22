@@ -2,8 +2,8 @@ const axios = require('axios');
 const crypto = require('crypto');
 const express = require("express");
 const { sign } = require("./Signer.js");
-// const Signer = require("./Signer2.js");
-
+const Signer = require("./Signer2.js");
+const Utils = require("./Utils");
 const app = express();
 app.use(express.json());
 
@@ -35,19 +35,25 @@ app.post("/xbogus", async (req, res) => {
     res.status(400).json({ code: 201, msg: err.message });
   }
 });
-// app.post("/signature", async (req, res) => {
-//   try {
-//     const { url } = req.body;
-//     const signer = new Signer();
-//     if (!url) {
-//       throw new Error("Missing required parameters.");
-//     }
-//     res.status(200).json(signer.sign(url));
-//   } catch (err) {
-//     console.error(err);
-//     res.status(400).json({ code: 201, msg: err.message });
-//   }
-// });
+app.post("/signature", async (req, res) => {
+  try {
+    const { url } = req.body;
+    const signer = new Signer();
+    if (!url) {
+      throw new Error("Missing required parameters.");
+    }
+    var data = signer.sign(url);
+    data['navigator'] = signer.navigator()
+    res.status(200).json({
+      code: 200,
+      msg: "success",
+      data: data
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ code: 201, msg: err.message });
+  }
+});
 app.get("/", (req, res) => {
   res.status(200).send(`
     <html>

@@ -12,8 +12,8 @@ class Signer {
   window = null;
 
   constructor(userAgent = Signer.DEFAULT_USERAGENT) {
-    const signature_js = fs.readFileSync(__dirname + "./Signer2.js", "utf-8");
-    const webmssdk = fs.readFileSync(__dirname + "./webmssdk.js", "utf-8");
+    const signature_js = fs.readFileSync(__dirname + "/signature.js", "utf-8");
+    const webmssdk = fs.readFileSync(__dirname + "/webmssdk.js", "utf-8");
     const resourceLoader = new ResourceLoader({ userAgent });
 
     const { window } = new JSDOM("", {
